@@ -12,6 +12,14 @@ export default function Register() {
             .then((res)=>{
                 console.log(res)
             })
+            .catch((err)=>{
+                if(err.status==400){
+                    alert("User already exists")
+                }
+                else{
+                    alert("Internal server error")
+                }
+            })
     }
 
     return (
