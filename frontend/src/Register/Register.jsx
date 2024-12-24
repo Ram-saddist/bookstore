@@ -5,31 +5,37 @@ export default function Register() {
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
     const [mobile,setMobile]=useState('')
-    function register(){
 
+    function register(e){
+        e.preventDefault()
+        axios.post("http://localhost:5000/api/auth/register",{name,email,password,mobile})
+            .then((res)=>{
+                console.log(res)
+            })
     }
+
     return (
         <div className='container mt-4'>
             <div className="row">
                 <form onSubmit={register} className='col-6'>
-                <div class="mb-3">
-                        <label for="exampleInputName" class="form-label">Name </label>
-                        <input type="text" class="form-control" id="exampleInputName" onChange={(e)=>setName(e.target.value)}/>
+                <div className="mb-3">
+                        <label for="exampleInputName" className="form-label">Name </label>
+                        <input type="text" className="form-control" id="exampleInputName" onChange={(e)=>setName(e.target.value)}/>
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" onChange={(e)=>setEmail(e.target.value)} aria-describedby="emailHelp" />
+                    <div className="mb-3">
+                        <label for="exampleInputEmail1" className="form-label">Email address</label>
+                        <input type="email" className="form-control" id="exampleInputEmail1" onChange={(e)=>setEmail(e.target.value)} aria-describedby="emailHelp" />
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Password</label>
-                        <input type="password" class="form-control" onChange={(e)=>setPassword(e.target.value)} id="exampleInputPassword1" />
+                    <div className="mb-3">
+                        <label for="exampleInputPassword1" className="form-label">Password</label>
+                        <input type="password" className="form-control" onChange={(e)=>setPassword(e.target.value)} id="exampleInputPassword1" />
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleInputMobile" class="form-label">Mobile Number </label>
-                        <input type="text" class="form-control" onChange={(e)=>setMobile(e.target.value)}
+                    <div className="mb-3">
+                        <label for="exampleInputMobile" className="form-label">Mobile Number </label>
+                        <input type="text" className="form-control" onChange={(e)=>setMobile(e.target.value)}
                         id="exampleInexampleInputMobileputName" />
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" className="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
