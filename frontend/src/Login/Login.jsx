@@ -12,6 +12,8 @@ export default function Login() {
             .then((res)=>{
                 console.log(res)
                 if(res.status===200){
+                    alert("login successful")
+                    localStorage.setItem("userId",res.data.userId)
                     navigate("/")
                 }
             })
