@@ -30,4 +30,33 @@ router.post("/add",async (req,res)=>{
      }
 })
 
+
+router.put("/books/:id",async(req,res)=>{
+   const {id}=req.params
+   const {userId,title,author, description,price,imageUrl}=req.body
+   if(!userId)
+      return res.status(400).json({"message":"User need to login first"})
+   try{
+      const book =await Book.findById(id)
+      if(!book)
+         return res.status(404).json({"message":"Book not found"})
+      if(book.userId!==userId)
+         return res.status(403).json({"message":"You are not authorised to update this book"})
+      book.title=title
+      book.author=author
+      book.price=price
+      book.description=description
+      book.imageUrl=imageUrl
+      await book.save()
+      res.status(200).json({"message":"Book updated successfully"})
+   }
+   catch(error){
+      return res.status(500).json({"message":"unable to update book"})
+   }
+
+
+
+
+})
+
 module.exports=router
