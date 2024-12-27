@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import {useNavigate} from 'react-router-dom'
 
 export default function Addbook() {
+    const navigate=useNavigate()
     let userId = localStorage.getItem("userId")
     const [title, setTitle] = useState("")
     const [author, setAuthor] = useState("")
@@ -11,10 +13,13 @@ export default function Addbook() {
     function addBook(e){
         e.preventDefault()
         const newBook={userId,title,price,description,author,imageUrl}
+        console.log(newBook)
         axios.post("http://localhost:5000/api/book/add",newBook)
             .then((res)=>{
-                if(res.status===200){
+                console.log(res)
+                if(res.status===201){
                     alert("Book added successfully")
+                    navigate("/")
                 }
             })
     }
