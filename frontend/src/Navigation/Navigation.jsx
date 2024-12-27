@@ -14,6 +14,7 @@ export default function Navigation() {
         userId ? (
           <div className='navbar'>
             <Link to="/">Home</Link>
+            <Link to="/add-book">Add Book</Link>
             <Link onClick={logout}>Logout</Link>
           </div>
         ) : (
