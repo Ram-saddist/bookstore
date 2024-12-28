@@ -14,6 +14,23 @@ export default function Home() {
         setBooks(res.data)
       })
   }
+  async function deleteBook(id){
+    const userId=localStorage.getItem("userId")
+    console.log(userId)
+    axios.delete(`http://localhost:5000/api/book/${id}`,{
+       data:{userId}
+    })
+    .then((res)=>{
+        if(res.status===200){
+          alert("Book deleted successfully")
+          fetchBooks()
+        }
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }
+
   function submitBook(e){
     e.preventDefault()
     console.log(editBook)
@@ -106,6 +123,7 @@ export default function Home() {
                           </div>
                           <div class="card-footer">
                             <button onClick={() => setEditBook(book)} className="btn btn-warning  fw-bold">Edit</button>
+                            <button className="btn btn-danger  fw-bold float-end" onClick={()=>deleteBook(book._id)}>Delete</button>
                           </div>
                         </div>
 

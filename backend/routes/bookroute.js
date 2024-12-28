@@ -53,10 +53,27 @@ router.put("/books/:id",async(req,res)=>{
    catch(error){
       return res.status(500).json({"message":"unable to update book"})
    }
-
-
-
-
 })
+
+router.delete("/:id",async (req,res)=>{
+   const {id} = req.params
+   const {userId} =req.body 
+   try{
+      const book = await Book.findById(id)
+      if(!book)
+        return res.status(404).json({"message":"Book not found"})
+      if(book.userId!==userId)
+         return res.status(403).json({"message":"You are not the owner of this book"})
+      await Book.findByIdAndDelete(id)
+      res.status(200).json({"message":"deleted successfully"})
+   }
+   catch(error){
+      console.log(error)
+      res.status(500).json({"message":"Internal server error while deleting a book"})
+   }
+})
+
+
+
 
 module.exports=router
