@@ -14,15 +14,45 @@ export default function Home() {
         setBooks(res.data)
       })
   }
-  function submitBook(){
-    
+  function submitBook(e){
+    e.preventDefault()
+    console.log(editBook)
+    try{
+      const userId=localStorage.getItem("userId")
+      if(!userId){
+        alert("Please login first")
+        return
+      }
+      const updatedBook={...editBook,userId}
+      axios.put(`http://localhost:5000/api/book/books/${editBook._id}`,updatedBook)
+        .then((res)=>{
+          if(res.status===200){
+            alert("Book updated successfully")
+            setEditBook(null)
+            fetchBooks()
+          }
+        })
+        .catch((error)=>{
+          console.log(error)
+          if(error.status===403){
+            alert("You are not authorised to update this book")
+            setEditBook(null)
+          }
+        })
+    }
+    catch(error){
+      console.log(error)
+    }
   }
-  function handleBookEdit(){
-
+  function handleBookEdit(e){
+    const {name,value}=e.target
+    setEditBook((prev)=>(
+      {...prev,[name]:value}
+    ))
   }
   return (
     <div>
-      <h1>Books</h1>
+      <h1 className='text-center'>Books</h1>
       {
         books.length === 0 ? (
           <div>Currently we dont have any books </div>
@@ -37,25 +67,25 @@ export default function Home() {
                         <div className="col-12 text-center">
                           <h1>Add new Book</h1>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-12">
                           <label htmlFor="inpuTitle" className="form-label">Title of the book</label>
-                          <input type="text" className="form-control" id="inpuTitle" onChange={handleBookEdit} />
+                          <input name="title" value={editBook.title} type="text" className="form-control" id="inpuTitle" onChange={handleBookEdit} />
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-12">
                           <label htmlFor="inputAuthor" className="form-label">Author</label>
-                          <input type="text" className="form-control" id="inputAuthor" onChange={handleBookEdit} />
+                          <input name='author' type="text" value={editBook.author} className="form-control" id="inputAuthor" onChange={handleBookEdit} />
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-12">
                           <label htmlFor="inputPrice" className="form-label">Price</label>
-                          <input type="text" className="form-control" id="inputPrice" onChange={handleBookEdit} />
+                          <input name='price' type="text" value={editBook.price} className="form-control" id="inputPrice" onChange={handleBookEdit} />
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-12">
                           <label htmlFor="inputDescription" className="form-label">Description</label>
-                          <input type="text" className="form-control" id="inputDescription" onChange={handleBookEdit} />
+                          <input name="description" type="text" value={editBook.description} className="form-control" id="inputDescription" onChange={handleBookEdit} />
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-12">
                           <label htmlFor="inputImageUrl" className="form-label">Image url</label>
-                          <input type="text" className="form-control" id="inputImageUrl" onChange={handleBookEdit} />
+                          <input name='imageUrl' type="text" className="form-control" id="inputImageUrl" onChange={handleBookEdit} />
                         </div>
 
                         <div className="col-12">
